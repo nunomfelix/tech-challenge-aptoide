@@ -1,4 +1,5 @@
 import json
+import sys 
 
 def main():
     data = json.load(open('./data.json'))
@@ -10,7 +11,7 @@ def main():
         _input_split = _input.split(" ")
         
         if(len(_input_split) != 3):
-            print("Invalid Input: Expected three strings separated by spaces")
+            print("Invalid Input: Expected three inputs separated by spaces")
         else:
             app, item, user = _input_split
             store.purchase_transaction(app, item, user)
@@ -27,6 +28,12 @@ class AptoideStore():
     def purchase_transaction(self, app_id: str, item: str, sender: str) -> 'Transaction':
         #TrivialDrive Oil User#123
         try:
+            if app_id not in self.apps or \
+                item not in self.apps[app_id].items or \
+                sender not in self.users:
+                print(f"ERROR: Invalid AppId/Item/Sender", file=sys.stderr)
+                return
+            
             app = self.apps[app_id]
             item = app.items[item]
             sender = self.users[sender]
@@ -47,8 +54,8 @@ class AptoideStore():
             self.users[app.dev_id].balance+=dev_share
             
             receivers={
-                self.id: store_share,
-                self.users[app.dev_id].user_id: dev_share
+                self.users[app.dev_id].user_id: dev_share,
+                self.id: store_share
             }
             
             balances={
@@ -61,7 +68,7 @@ class AptoideStore():
             transaction = Transaction(tx_data)
             self.transactions.append(transaction)
             self.users[sender.user_id].purchases.append({"app_id": app_id, "item_id": item['id'], "amount": amount})
-            print(transaction, '\n', f"BALANCE => {'; '.join([f'{user}: €{amount}' for user, amount in balances.items()])}")
+            print(transaction, '\n', f"BALANCE => {'; '.join([f'{user}: €{amount:.2f}' for user, amount in balances.items()])}")
             
             self.reward_transaction(sender.user_id, app_id, amount)
             return transaction
@@ -85,7 +92,6 @@ class AptoideStore():
             user_id: self.users[user_id].balance,
             self.id: self.balance
         }
-        print(count)
         print("#########\n",tx, '\n', f"BALANCE => {'; '.join([f'{user}: €{amount:.2f}' for user, amount in balances.items()])}")
         return tx
     

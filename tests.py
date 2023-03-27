@@ -1,5 +1,8 @@
 import pytest
 import json
+import sys
+from io import StringIO
+
 from challenge import AptoideStore
 
 @pytest.fixture
@@ -8,11 +11,25 @@ def test_data():
         data = json.load(f)
     return data
 
-def test_purchase_transaction(test_data):
+def test_purchase_transaction(test_data, monkeypatch):
     # Initialize AptoideStore object
     store = AptoideStore(test_data['store_id'], test_data['store_balance'], test_data['store_comission'],
                          test_data['apps'], test_data['items'], test_data['users'])
 
+    error_output = StringIO()
+    monkeypatch.setattr(sys, 'stderr', error_output)
+    # Test failed purchase transaction due to invalid app_id
+    store.purchase_transaction('invalid_app_id', 'item1', 'user1')
+    assert 'ERROR: Invalid AppId/Item/Sender' in error_output.getvalue()
+    
+    # Test failed purchase transaction due to invalid item_id
+    store.purchase_transaction('app1', 'invalid_item_id', 'user1')
+    assert 'ERROR: Invalid AppId/Item/Sender' in error_output.getvalue()
+    
+    # Test failed purchase transaction due to invalid user_id
+    store.purchase_transaction('app1', 'item1', 'invalid_user_id')
+    assert 'ERROR: Invalid AppId/Item/Sender' in error_output.getvalue()
+    
     # Test successful purchase transaction
     tx1 = store.purchase_transaction('app1', 'item1', 'user1')
     assert tx1.type == 'PURCHASE'
@@ -31,25 +48,12 @@ def test_purchase_transaction(test_data):
     assert tx2 is None
     assert store.users['user2'].balance == 0.5
 
-    # Test failed purchase transaction due to invalid app_id
-    with pytest.raises(KeyError):
-        store.purchase_transaction('invalid_app_id', 'item1', 'user1')
-
-    # Test failed purchase transaction due to invalid item_id
-    with pytest.raises(KeyError):
-        store.purchase_transaction('app1', 'invalid_item_id', 'user1')
-
-    # Test failed purchase transaction due to invalid user_id
-    with pytest.raises(KeyError):
-        store.purchase_transaction('app1', 'item1', 'invalid_user_id')
-
 def test_reward_transaction(test_data):
     # Initialize AptoideStore object
     store = AptoideStore(test_data['store_id'], test_data['store_balance'], test_data['store_comission'],
                          test_data['apps'], test_data['items'], test_data['users'])
     
     [store.users['user1'].purchases.append({"app_id": "app1", "item_id": "item1", "amount": 1.00}) for _ in range(2)]
-
     # Test reward transaction with count = 2
     tx1 = store.reward_transaction('user1', 'app1', 1.0)
 
