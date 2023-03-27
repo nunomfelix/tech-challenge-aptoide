@@ -1,0 +1,17 @@
+{
+    "store_id": "store1",  
+    "store_balance": 1.00,
+    "store_comission": 0.20,
+    "apps": [
+        {"id": "app1", "comission": 0.80, "dev_id": "dev1"}
+    ],
+     "items": [
+        {"id": "item1", "price": 1.00, "currency" : "€", "app_id": "app1"},
+        {"id": "item2", "price": 10.00, "currency" : "€", "app_id": "app1"}
+    ],
+     "users": [
+        {"id": "dev1", "balance": 0},
+        {"id": "user1", "balance": 10.00},
+        {"id": "user2", "balance": 0.5}
+     ]
+}
