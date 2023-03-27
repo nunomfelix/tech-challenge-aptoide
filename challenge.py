@@ -26,7 +26,6 @@ class AptoideStore():
         self.transactions = []
 
     def purchase_transaction(self, app_id: str, item: str, sender: str) -> 'Transaction':
-        #TrivialDrive Oil User#123
         try:
             if app_id not in self.apps or \
                 item not in self.apps[app_id].items or \
