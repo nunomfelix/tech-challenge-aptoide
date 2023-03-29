@@ -44,6 +44,7 @@ class AptoideStore():
             
             if self.comission + app.comission != 1:
                 print(f"ERROR: The comissions between the Store and the App don't add up to 100%")
+                return
             
             store_share=round(self.comission * amount, 2)
             dev_share=round(app.comission * amount, 2)
@@ -100,7 +101,7 @@ class User():
         self.balance = balance
         self.purchases = []
         
-    def __str__(self):
+    def __str__(self) -> str:
         return f"User(id={self.user_id}, balance={self.balance})"
     
 class App():
