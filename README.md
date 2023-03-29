@@ -1,24 +1,33 @@
 ## tech-challenge-aptoide
 
-#### Ativar ambiente virtual
+#### Setup and activate virtual environment
+
+Inside the directory
 
 ```bash
-  source env/bin/activate
+  python3 -m venv <my_env>
+  source <my_env>/bin/activate
 ```
 
-#### Executar testes
+#### Install requirements
+
+```python
+  pip3 install -r requirements.txt 
+```
+
+#### Execute tests
 
 ```python
   pytest tests.py 
 ```
 
-#### Executar código
+#### Execute challenge code
 
 ```python
   python3 challenge.py
 ```
 
-#### Desativar ambiente virtual
+#### Deactivate virtual environment
 
 ```bash
   deactivate
