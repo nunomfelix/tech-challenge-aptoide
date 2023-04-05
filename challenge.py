@@ -71,13 +71,12 @@ class AptoideStore(BaseModel):
                 print(f"ERROR: Invalid SenderId", file=sys.stderr)
                 return None
             
-            app = self.apps[app_id]
-            item = app.items[item_id]
-
-            if item is None:
+            if item_id not in self.apps[app_id].items:
                 print(f"ERROR: Invalid Item", file=sys.stderr)
                 return None
 
+            app = self.apps[app_id]
+            item = app.items[item_id]
             sender = self.users[sender_id]
             amount = item['price']
 
