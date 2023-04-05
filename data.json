@@ -1,19 +1,27 @@
 {
-"store_id": "AptoideStore#1",  
-"store_balance": 10.00,
-"store_comission": 0.25,
-"apps": [
-    {"id": "TrivialDrive", "comission": 0.75, "dev_id": "TrivialDriveDeveloper#2"},
-    {"id": "DiamondLegend", "comission": 0.75, "dev_id": "DiamondLegendDeveloper#3"}
-],
- "items": [
-    {"id": "Oil", "price": 1.00, "currency" : "€", "app_id": "TrivialDrive"},
-    {"id": "Antifreeze", "price": 1.20, "currency" : "€", "app_id": "TrivialDrive"},
-    {"id": "5x_Diamonds", "price": 2.00, "currency" : "€", "app_id": "DiamondLegend"}
-],
- "users": [
-    {"id": "User#123", "balance": 10.00},
-    {"id": "TrivialDriveDeveloper#2", "balance": 10.00},
-    {"id": "DiamondLegendDeveloper#3", "balance": 10.00}
- ]
-}
+    "store_id": "AptoideStore#1",  
+    "store_balance": 10.00,
+    "store_comission": 0.25,
+    "apps": [
+        {"id": "TrivialDrive", 
+        "comission": 0.75,
+        "dev_id": "TrivialDriveDeveloper#2",
+        "items": [
+            {"id": "Oil", "price": 1.00, "currency" : "€", "app_id": "TrivialDrive"},
+            {"id": "Antifreeze", "price": 1.20, "currency" : "€", "app_id": "TrivialDrive"}
+        ]
+    },
+        {"id": "DiamondLegend", 
+        "comission": 0.75, 
+        "dev_id": "DiamondLegendDeveloper#3",
+        "items":[
+            {"id": "5x_Diamonds", "price": 2.00, "currency" : "€", "app_id": "DiamondLegend"}
+        ]
+    }
+    ],
+     "users": [
+        {"id": "User#123", "balance": 10.00},
+        {"id": "TrivialDriveDeveloper#2", "balance": 10.00},
+        {"id": "DiamondLegendDeveloper#3", "balance": 10.00}
+     ]
+    }
